@@ -184,7 +184,7 @@ class tau_leaping:
 		#After finishing generation, print data
 		return T,X
 
-#test data
+#example - execute if run this file as a main
 if __name__=="__main__":
 	'''	
 	proFunc=[

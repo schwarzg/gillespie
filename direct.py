@@ -70,3 +70,25 @@ class direct:
 
 		#After finishing generation, print data
 		return T,X
+
+#example - execute if run this file as a main
+if __name__=="__main__":
+	proFunc=[
+		lambda x: x[0],
+		lambda x: 1.05*x[1],
+		lambda x: 1e-2*x[0]
+	]
+	
+	changeVec=np.array([[1,0],[0,1],[-1,1]]).astype(int)
+	rxnOrder=np.array([[1,0],[0,1],[0,1]]).astype(int)
+	Xini=np.array([100,0])
+	
+	from model import model
+	test=model(proFunc=proFunc,rxnOrder=rxnOrder,changeVec=changeVec)
+	solver=direct(model=test)
+
+	import time
+	tik=time.time()
+	T,X=solver.run(Xini,0,3)
+	print([T,X])
+	print(time.time()-tik,"sec")
