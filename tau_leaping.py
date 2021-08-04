@@ -108,6 +108,7 @@ class tau_leaping:
 
 				
 		#Step 3. if selected tau is longer enough than 1/a0, choose time step
+		print("taup",taup)
 		while taup>10./a0:
 			#Step 4. Sample tau'' for critical reactions
 			if len(cr)!=0:
@@ -115,6 +116,8 @@ class tau_leaping:
 				taupp=np.random.exponential(scale=1./(a0c+1e-12))		
 			else:
 				taupp=np.inf
+		
+			print("taupp",taupp)
 	
 			#Step 5. Determine actual time leap
 			nrxn=len(self.model.proFunc)		
@@ -124,6 +127,7 @@ class tau_leaping:
 				for j in ncr:
 					numrxn[j]=np.random.poisson(lam=a[j]*tau)
 			else:
+				print("taupp work")
 				tau=taupp
 				for j in ncr:
 					numrxn[j]=np.random.poisson(lam=a[j]*tau)
@@ -186,6 +190,20 @@ class tau_leaping:
 
 #example - execute if run this file as a main
 if __name__=="__main__":
+	proFunc=[
+		lambda x: x[0],
+		lambda x: 1.05*x[1],
+		lambda x: 50*x[1],
+		#lambda x: 1e-2*x[0]*x[0]
+	]
+	changeVec=np.array([[1,0],[0,1],[1,-1]]).astype(int)
+	rxnOrder=np.array([[1,0],[0,1],[0,1]]).astype(int)
+	Xini=np.array([1000,5])
+	from model import model
+	testmodel=model(proFunc=proFunc,rxnOrder=rxnOrder,changeVec=changeVec)
+	solver1=tau_leaping(model=testmodel,eps=0.03)
+	print(solver1.step(Xini))	
+	
 	'''	
 	proFunc=[
 		lambda x: x[0],
@@ -196,6 +214,8 @@ if __name__=="__main__":
 	changeVec=np.array([[-1,0,0],[-2,1,0],[2,-1,0],[0,-1,1]]).astype(int)
 	rxnOrder=np.array([[1,0,0],[2,0,0],[0,1,0],[0,0,1]]).astype(int)
 	Xini=np.array([10000,0,0])
+	'''
+	
 	'''
 	proFunc=[
 		lambda x: x[0],
@@ -218,12 +238,10 @@ if __name__=="__main__":
 	
 	import time
 	import matplotlib.pyplot as plt
-	'''
 	for i in range(100):
 		T,X=solver1.step(Xini)
 		print('First step,',T,X)
 	
-	'''
 	t3=time.time()
 	for i in range(10**3):
 		T,X=solver2.run(Xini,0,0.2)
@@ -259,3 +277,4 @@ if __name__=="__main__":
 	plt.hist(X3s2,bins=40,label=r'$Dir-%fs$'%(t3-t2),histtype=u'step',density=True)
 	plt.legend(frameon=False)
 	plt.show()
+	'''

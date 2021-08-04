@@ -87,7 +87,7 @@ class indexed_priority_queue:
 
 			if r<self.size and self.less(r,l):
 				s=r
-			if l>=self.size or self.less(i,s):
+			if l>=self.size or self.less(n,s):
 				break
 	
 			self.swap(s,n)

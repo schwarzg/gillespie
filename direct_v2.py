@@ -10,6 +10,9 @@ class direct:
 		2. Sampling tau and reaction index, calculate change of reactant delta x
 		3. Update t=t+tau, x=x+\delta x
 		4. Record change and return to step 1
+
+		v2
+			Now, profensity function calculation part in 'step' compatible with model v2 only.
 		
 	'''
 	def __init__(self,model):
@@ -21,9 +24,7 @@ class direct:
 		
 		#Step 1. Calculate propensity function
 		nrxn=len(self.model.changeVec)
-		a=np.zeros(nrxn)
-		for i in range(nrxn):
-			a[i]=self.model.proFunc[i](X)
+		a=model.proFunc(X)
 		a0=np.sum(a)
 
 		#Step 2. Sampling tau and reaction index
