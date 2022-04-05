@@ -5,8 +5,8 @@
 		Model template to use alorithms.
 
 	v2
-		Now, proFunc is a function that return propensity function values in array			
-
+		proFunc_val is a function that return propensity function values in array			
+ 
 '''
 import numpy as np
 
@@ -18,6 +18,7 @@ class model:
 		self.rxnOrder=rxnOrder	#List of reaction order for each reactant
 		self.rxnOrder_t=np.sum(rxnOrder,axis=1) #List of total reaction order
 		self.rs=np.argwhere(np.max(rxnOrder,axis=0)!=0)[:,0]
+		self.params=params
 
 	def replace(self,proFunc,changeVec,rxnOrder):
 		self.proFunc=proFunc	#List of propensity functions
@@ -25,6 +26,12 @@ class model:
 		self.rxnOrder=rxnOrder	#List of reaction order for each reactant
 		self.rxnOrder_t=np.sum(rxnOrder,axis=1) #List of total reaction order
 		self.rs=np.argwhere(np.max(rxnOrder,axis=0)!=0)[:,0]
+	
+	def proFunc_eval(self,X):
+		a=np.zeros(len(self.changeVec))
+		for i in range(nrxn):
+			a[i]=self.model.proFunc[i](X)
+		return a
 	
 	def stop(self,x):
 		if np.all(x[self.rs] == 0) or np.any(x<0):

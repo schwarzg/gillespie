@@ -1,4 +1,4 @@
-__all__[
+__all__=[
 'direct',
 'model',
 'next_reaction',

@@ -24,7 +24,7 @@ class direct:
 		
 		#Step 1. Calculate propensity function
 		nrxn=len(self.model.changeVec)
-		a=model.proFunc(X)
+		a=self.model.proFunc_eval(X)
 		a0=np.sum(a)
 
 		#Step 2. Sampling tau and reaction index
@@ -83,7 +83,7 @@ if __name__=="__main__":
 	changeVec=np.array([[1,0],[0,1],[-1,1]]).astype(int)
 	rxnOrder=np.array([[1,0],[0,1],[0,1]]).astype(int)
 	Xini=np.array([100,0])
-	
+
 	from model import model
 	test=model(proFunc=proFunc,rxnOrder=rxnOrder,changeVec=changeVec)
 	solver=direct(model=test)
